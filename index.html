@@ -1,24 +1,39 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Android 代理客户端目录（复刻练习）</title>
 <meta name="description" content="66 款 Android 代理客户端目录复刻练习，数据快照 2026-11-23，非原站。">
 <link rel="stylesheet" href="style.css">
+<script>
+(function(){try{var t=localStorage.getItem('hr-theme');if(t){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();
+</script>
 </head>
 <body>
-<header class="top">
+<header class="hero">
   <div class="wrap">
-    <h1>Android 代理客户端目录</h1>
-    <p class="sub">复刻练习 · 数据快照日期 2026-11-23 · 非原站 · 本站不提供节点、不托管安装包</p>
-    <p class="note">数据来源：<a href="https://huarun.win/platform/android" target="_blank" rel="noopener">huarun.win/platform/android</a> 列表页（2026-11-23 抓取的公开数据）。Star 数为该页快照；30 日只给了比例，无绝对数；核验不到的字段一律写“未核实”。热门、免费或开源均不等同于安全结论，下载请走官方渠道。</p>
+    <div class="hero-top">
+      <div class="brand"><span class="brand-mark">◇</span>代理客户端目录 · 复刻练习</div>
+      <button id="theme" type="button" class="theme-btn" aria-label="切换深浅主题">🌙 深色</button>
+    </div>
+    <h1>Android 代理客户端<br>66 款，一页找全</h1>
+    <p class="lede">按内核、代码状态和费用筛选，对照 GitHub Star 的 7 日与 30 日变化，先选对客户端，再去官方渠道下载。</p>
+    <p class="hero-stats">
+      <span><b>66</b> 款应用</span>
+      <span>快照 <b>2026-11-23</b></span>
+      <span>数据来源 <b>huarun.win</b></span>
+      <span>非原站 · 不提供节点</span>
+    </p>
+    <div class="hero-search">
+      <input id="q" type="search" placeholder="搜索名称 / 内核，例如 flclash、Mihomo…" autocomplete="off" aria-label="搜索">
+    </div>
+    <p class="hero-note">数据来源：<a href="https://huarun.win/platform/android" target="_blank" rel="noopener">huarun.win/platform/android</a> 列表页（2026-11-23 抓取的公开数据）。Star 数为该页快照；30 日只给了比例，无绝对数；核验不到的字段一律写“未核实”。热门、免费或开源均不等同于安全结论，下载请走官方渠道。</p>
   </div>
 </header>
 
 <main class="wrap">
-  <section class="controls" aria-label="筛选与搜索">
-    <input id="q" type="search" placeholder="搜索名称 / 内核，例如 flclash、Mihomo…" autocomplete="off" aria-label="搜索">
+  <section class="controls" aria-label="筛选与排序">
     <label>代码状态
       <select id="source">
         <option value="all">全部</option>
@@ -61,7 +76,7 @@
 </main>
 
 <footer class="wrap foot">
-  <p>复刻练习站：纯静态 HTML + CSS + JS，无后端、无账号、无统计。数据文件见 <code>apps.json</code>，快照日期 2026-11-23。</p>
+  <p>复刻练习站：纯静态 HTML + CSS + JS，无后端、无账号、无统计，不用任何外部 CDN。数据文件见 <code>apps.json</code>，快照日期 2026-11-23；应用图标来自原站 <code>/app-icons/</code> 的公开图标文件，本地存放于 <code>icons/</code>。</p>
   <p>选型提醒：先核对 Android 版本、CPU 架构和官方分发渠道；订阅格式、内核与 VPN/TUN 权限以各应用官方说明为准。</p>
 </footer>
 

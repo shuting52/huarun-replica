@@ -85,28 +85,57 @@ function applyFilters() {
   render(list);
   writeState();
 }
+function iconHtml(a) {
+  if (a.icon) {
+    return '<img class="icon" src="' + esc(a.icon) + '" alt="" loading="lazy" onerror="this.outerHTML=\'<span class=&quot;icon-fallback&quot;>\' + ' + JSON.stringify(a.name.charAt(0)) + ' + \'</span>\'">';
+  }
+  return '<span class="icon-fallback" aria-hidden="true">' + esc(a.name.charAt(0)) + '</span>';
+}
+function sourceChipClass(a) {
+  if (sourceGroup(a) === 'open') return 'open';
+  if (sourceGroup(a) === 'closed') return 'closed';
+  if (a.source === '源码不完整') return 'limited';
+  return '';
+}
 function render(list) {
-  countEl.textContent = '共 ' + list.length + ' 款 / 全部 ' + total + ' 款 · 快照 2026-11-23';
+  countEl.innerHTML = '共 <b>' + list.length + '</b> 款 / 全部 ' + total + ' 款 · 快照 2026-11-23';
   emptyEl.hidden = list.length !== 0;
   grid.innerHTML = list.map(function (a) {
     var rating = a.rating !== null
-      ? '<div><b>' + fmt(a.rating) + '</b><span>商店评分数' + (a.rating7d !== null ? '（7日 ' + fmtSigned(a.rating7d) + '）' : '') + '</span></div>'
+      ? '<div class="rating">商店评分数 <b>' + fmt(a.rating) + '</b>' + (a.rating7d !== null ? '（7日 ' + fmtSigned(a.rating7d) + '）' : '') + '</div>'
       : '';
     return '<article class="card">' +
-      '<h2>' + esc(a.name) + ' <small>' + esc(a.slug) + '</small></h2>' +
+      '<div class="card-head">' + iconHtml(a) +
+      '<h2>' + esc(a.name) + '<small>' + esc(a.slug) + '</small></h2></div>' +
       '<p class="desc">' + esc(a.desc) + '</p>' +
-      '<div class="chips"><span class="chip">内核：' + esc(a.kernel) + '</span>' +
-      '<span class="chip ' + (sourceGroup(a) === 'open' ? 'open' : sourceGroup(a) === 'closed' ? 'closed' : '') + '">' + esc(a.source) + '</span>' +
+      '<div class="chips"><span class="chip kernel">' + esc(a.kernel) + '</span>' +
+      '<span class="chip ' + sourceChipClass(a) + '">' + esc(a.source) + '</span>' +
       '<span class="chip">费用：' + esc(a.fee) + '</span></div>' +
       '<div class="stats">' +
       '<div><b>' + fmt(a.stars) + '</b><span>Star 总数</span></div>' +
-      '<div><b>' + fmtSigned(a.stars7d) + '</b><span>7 日新增</span></div>' +
-      '<div><b>' + fmtPct(a.stars30d_pct) + '</b><span>30 日比例</span></div>' +
+      '<div><b class="' + (a.stars7d > 0 ? 'up' : '') + '">' + fmtSigned(a.stars7d) + '</b><span>7 日新增</span></div>' +
+      '<div><b class="' + (a.stars30d_pct > 0 ? 'up' : '') + '">' + fmtPct(a.stars30d_pct) + '</b><span>30 日比例</span></div>' +
       rating +
       '</div>' +
-      '<a class="link" href="' + esc(a.detail) + '" target="_blank" rel="noopener">官方入口 ↗（原站详情页，内含 GitHub / 商店下载链接）</a>' +
+      '<a class="link" href="' + esc(a.detail) + '" target="_blank" rel="noopener">官方入口 ↗</a>' +
       '</article>';
   }).join('');
+}
+
+// 深浅主题切换（默认浅色，偏好存本地）
+var themeBtn = document.getElementById('theme');
+function syncThemeBtn() {
+  var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+  themeBtn.textContent = dark ? '☀️ 浅色' : '🌙 深色';
+}
+if (themeBtn) {
+  syncThemeBtn();
+  themeBtn.addEventListener('click', function () {
+    var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('hr-theme', next); } catch (e) {}
+    syncThemeBtn();
+  });
 }
 
 [qEl, sourceEl, kernelEl, sortEl].forEach(function (el) {
