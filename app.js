@@ -87,7 +87,7 @@ function applyFilters() {
 }
 function iconHtml(a) {
   if (a.icon) {
-    return '<img class="icon" src="' + esc(a.icon) + '" alt="" loading="lazy" onerror="this.outerHTML=\'<span class=&quot;icon-fallback&quot;>\' + ' + JSON.stringify(a.name.charAt(0)) + ' + \'</span>\'">';
+    return '<img class="icon" src="' + esc(a.icon) + '" alt="" loading="lazy" data-letter="' + esc(a.name.charAt(0)) + '" onerror="this.outerHTML=\'<span class=icon-fallback>\'+this.dataset.letter+\'</span>\'">';
   }
   return '<span class="icon-fallback" aria-hidden="true">' + esc(a.name.charAt(0)) + '</span>';
 }
