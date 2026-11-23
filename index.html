@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Android 代理客户端目录（复刻练习）</title>
+<meta name="description" content="66 款 Android 代理客户端目录复刻练习，数据快照 2026-11-23，非原站。">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <h1>Android 代理客户端目录</h1>
+    <p class="sub">复刻练习 · 数据快照日期 2026-11-23 · 非原站 · 本站不提供节点、不托管安装包</p>
+    <p class="note">数据来源：<a href="https://huarun.win/platform/android" target="_blank" rel="noopener">huarun.win/platform/android</a> 列表页（2026-11-23 抓取的公开数据）。Star 数为该页快照；30 日只给了比例，无绝对数；核验不到的字段一律写“未核实”。热门、免费或开源均不等同于安全结论，下载请走官方渠道。</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="controls" aria-label="筛选与搜索">
+    <input id="q" type="search" placeholder="搜索名称 / 内核，例如 flclash、Mihomo…" autocomplete="off" aria-label="搜索">
+    <label>代码状态
+      <select id="source">
+        <option value="all">全部</option>
+        <option value="open">开源</option>
+        <option value="closed">未公开</option>
+        <option value="unknown">未核实</option>
+      </select>
+    </label>
+    <label>内核
+      <select id="kernel">
+        <option value="all">全部内核</option>
+        <option value="sing-box">sing-box</option>
+        <option value="Mihomo">Mihomo</option>
+        <option value="Xray">Xray</option>
+        <option value="Shadowsocks">Shadowsocks</option>
+        <option value="自研">自研</option>
+        <option value="Sudoku">Sudoku</option>
+        <option value="WARP">WARP</option>
+        <option value="Geph5">Geph5</option>
+        <option value="Outline">Outline</option>
+        <option value="exclave-core">exclave-core</option>
+        <option value="未核实">未核实</option>
+      </select>
+    </label>
+    <label>排序
+      <select id="sort">
+        <option value="default">默认顺序</option>
+        <option value="stars">Star 总数 ↓</option>
+        <option value="stars7d">7 日新增 ↓</option>
+        <option value="stars30d_pct">30 日比例 ↓</option>
+        <option value="name">名称 A–Z</option>
+      </select>
+    </label>
+    <button id="reset" type="button">清空筛选</button>
+  </section>
+
+  <p id="count" class="count" aria-live="polite">加载中…</p>
+  <div id="grid" class="grid"></div>
+  <p id="empty" class="empty" hidden>没有匹配的结果，换个关键词或清空筛选试试。</p>
+</main>
+
+<footer class="wrap foot">
+  <p>复刻练习站：纯静态 HTML + CSS + JS，无后端、无账号、无统计。数据文件见 <code>apps.json</code>，快照日期 2026-11-23。</p>
+  <p>选型提醒：先核对 Android 版本、CPU 架构和官方分发渠道；订阅格式、内核与 VPN/TUN 权限以各应用官方说明为准。</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
