@@ -13,7 +13,7 @@
 | `style.css` | 现代干净样式：浅色为主、深色主题切换（默认浅色，偏好存 localStorage）、手机单列、桌面多列卡片网格、卡片悬停上浮 |
 | `app.js` | 拉取 `apps.json`，在浏览器本地做搜索/筛选/排序，并把状态同步到 URL 查询串；渲染卡片图标（有图标用 `icons/*.webp`，无图标用首字母占位，图片加载失败时自动换占位） |
 | `apps.json` | 66 款应用的快照数据（名称、内核、代码状态、费用、Star、7 日新增、30 日比例、商店评分、原站详情链接、图标相对路径 `icon`） |
-| `icons/` | 43 个本地图标文件（WebP，原站 `/app-icons/` 的公开图标文件，见下） |
+| `icons/` | 57 个本地图标文件（WebP，原站 `/app-icons/` 的公开图标文件，见下） |
 
 功能：
 
@@ -37,9 +37,9 @@
 ## 图标同步（2026-11-23）
 
 - 方法：逐个打开 66 个详情页（`https://huarun.win/apps/<slug>`），只抄页面末尾 Images 脚注里 `[Image 0]`（应用图标）的真实地址，形如 `https://huarun.win/app-icons/<slug>-20260916-v1.webp` 或 `https://huarun.win/app-icons/<slug>.webp`；下载到本地 `icons/<slug>.webp`，在 `apps.json` 里给每款加 `icon` 字段（相对路径）。只同步图标，未搬原站截图。
-- 同步成功 **43 款**：全部下载成功且经 `file` 命令核验为有效 WebP（512×512 居多），共约 708KB，逐个文件大小均 >0。成功清单：v2rayng、clash-meta-for-android、bettbox、hiddify、shadowsocks-android、surfboard、insightbox、clash-mi、mconnect、flyclash-android、outline、box-for-android、flclashx、netproxy、nekobox-by-starifly、clash-plus、yumebox、singcast、throne-for-android、geph、lxbox、nexus、mikubox-for-android、stash-for-android、anyportal、xray-gui、kunbox、mikuray、clashfest、clash-mix、asteriskbox、keqdroid、meow-android、slclash、clash-of-rust、monadbox、akashaproxy、aerobox-for-android、ssrvpn、stelliberty-android、sudodroid、nextbox-for-android、flrone。
-- 确认无图标 **8 款**（详情页确实没有 Images 脚注，`icon` 为 null，卡片显示首字母占位）：flclash、sing-box、karing、happ-proxy、onexray、zedsecure、vproxy、fluxora。
-- **未核实 15 款**（`icon` 暂为 null，卡片显示首字母占位）：incy、exclave、box-for-root、surfing、aether、husi、box4magisk、asteriskng、ownbox、asteriskmeta、interstellar、throne-for-android-own716-fork、angela-mihomo、sakurabox、nekobox-for-android。原因：核对到后半段时原站抓取服务连续返回 429 限流，按限流指示停下未重试；这 15 款不是已确认无图标，只是本次没查到，待限流缓解后逐页补查。绝无按 slug 拼凑的地址。
+- 同步成功 **57 款**：全部下载成功且经 `file` 命令核验为有效 WebP（512×512 居多），共约 900KB，逐个文件大小均 >0。成功清单：v2rayng、clash-meta-for-android、bettbox、hiddify、shadowsocks-android、surfboard、insightbox、clash-mi、mconnect、flyclash-android、outline、box-for-android、flclashx、netproxy、nekobox-by-starifly、clash-plus、yumebox、singcast、throne-for-android、geph、lxbox、nexus、mikubox-for-android、stash-for-android、anyportal、xray-gui、kunbox、mikuray、clashfest、clash-mix、asteriskbox、keqdroid、meow-android、slclash、clash-of-rust、monadbox、akashaproxy、aerobox-for-android、ssrvpn、stelliberty-android、sudodroid、nextbox-for-android、flrone，另加第二批 14 款（2026-11-23 限流缓解后补查）：aether、exclave、box-for-root、surfing、husi、box4magisk、asteriskng、ownbox、asteriskmeta、interstellar、throne-for-android-own716-fork、angela-mihomo、sakurabox、nekobox-for-android。
+- 确认无图标 **9 款**（详情页确实没有 Images 脚注，`icon` 为 null，卡片显示首字母占位）：flclash、sing-box、karing、happ-proxy、onexray、zedsecure、vproxy、fluxora、incy（incy 于 2026-11-23 补查确认无图标）。
+- **未核实 0 款**：66 款图标状态已全部核实完毕（57 款有图标、9 款确认无图标）。绝无按 slug 拼凑的地址。
 
 ## 本地验证（方法与结果，2026-11-23）
 
@@ -67,10 +67,16 @@
    - `?q=zzzznomatch`：0 张，空状态正常
    - 深浅切换按钮与图标渲染逻辑均在 `app.js` 中（`getElementById('theme')`、`iconHtml`）；卡片 HTML 抽查：v2rayNG 卡片带 `icons/v2rayng.webp` 且 onerror 回退有效，FlClash 卡片为首字母占位 `F`。
 
+### 第三轮验证（图标补齐后，2026-11-23）
+
+1. `python3 -c json.load`：`apps.json` 解析通过，66 条，其中 57 条带 `icon`，9 条为 null；57 个图标文件全部在磁盘上存在且均为 WebP、大小均 >0。
+2. `node --check app.js`：JS 语法通过。
+3. `python3 -m http.server 8323` + `curl`：`index.html` 200、`apps.json` 200、新补图标 `icons/nekobox-for-android.webp` 与 `icons/aether.webp` 均 200；服务已随验证结束停止。
+
 ## 已知缺口
 
 - 内核 / 代码状态 / 费用只核实了 15 个详情页 + 列表页精选 3 款，其余 49 款内核标“未核实”；想补全需逐个打开 66 个详情页核对。
 - 卡片的“官方入口”指向原站详情页，未直接写死 GitHub 仓库地址：浏览器文本抓取未返回仓库完整路径，直接拼写仓库地址属于编造。如需直链 GitHub，需逐个从详情页取仓库链接再填入 `apps.json` 的 `detail` 字段（或新增 `github` 字段）。
 - Star / 版本数据是 2026-11-23 的静态快照，无每日自动更新定时任务；要做自动更新需另加 GitHub API 快照脚本。
-- 图标 43/66：8 款确认无图标、15 款因 429 限流未核实（见“图标同步”一节），待限流缓解后补查；未搬原站截图。
+- 图标 57/66：9 款确认无图标（见“图标同步”一节），其余 57 款均已同步；未搬原站截图。
 - 30 日新增只有比例，无绝对数；5 款无 Star 数据的条目按 Star 排序时排在最后。
